@@ -1,0 +1,32 @@
+{
+  "name": "gitbook-plugin-lanying-grow-ai",
+  "description": "lanying grow ai",
+  "homepage": "https://github.com/maxim-top/gitbook-plugin-lanying-grow-ai",
+  "bugs": {
+    "url": "https://github.com/maxim-top/gitbook-plugin-lanying-grow-ai/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxim-top/gitbook-plugin-lanying-grow-ai.git"
+  },
+  "main": "./index.js",
+  "version": "1.0.0",
+  "keywords": [
+    "gitbook",
+    "gitbook-plugin",
+    "lanying",
+    "grow",
+    "ai"
+  ],
+  "engines": {
+    "gitbook": ">=3.0.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  },
+  "author": "LanyingIM <eva@bmxlabs.com>",
+  "license": "Apache-2.0"
+}
