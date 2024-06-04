@@ -13,7 +13,7 @@ module.exports = {
   hooks: {
     "page:before": function(page) {
       var logger = this.log
-      logger.info.ln("page:before:", this.output.name)
+      logger.info.ln("grow-ai:", this.output.name)
       // 仅处理网站生成模式
       if (this.output.name !== 'website') {
         return page;
@@ -22,6 +22,7 @@ module.exports = {
       const outputPath = this.output.resolve('');
       const filePath = path.join(outputPath, page.path);
 
+      logger.info.ln("grow-ai:", "path:", path, "filePath:", filePath)
       if (path.extname(filePath) === '.html') {
         const content = fs.readFileSync(filePath, 'utf8');
         const replacements = this.config.get('pluginsConfig.lanying-grow-ai.replacements', []);
