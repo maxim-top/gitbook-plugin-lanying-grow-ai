@@ -1,5 +1,23 @@
 module.exports = {
   hooks: {
+    "page:before": function(page) {
+      const footer_note = this.config.get('pluginsConfig.lanying-grow-ai.footer_note', '')
+      if (footer_note){
+        const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
+        const note_text = "\n> " + footer_note + "\n\n"
+        var new_content = page.content.replace(footerRegex,  note_text + '$1');
+        if (new_content == page.content){
+          new_content += note_text;
+        }
+        page.content = new_content
+      }
+      const lanying_link = this.config.get('pluginsConfig.lanying-grow-ai.lanying_link', '')
+      if (lanying_link && lanying_link.startsWith("https://lanying.link/")){
+        const new_lanying_link = lanying_link.replace("https://lanying.link/", "https://lanying.link/support/")
+        page.content += "\n<script src=\""+new_lanying_link+"\" charset=\"utf-8\" async defer></script>\n"
+      }
+      return page;
+    },
     "finish:before": function(x){
       const fs = require('fs');
       const path = require('path');
