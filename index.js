@@ -1,20 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
-function replaceContent(content, replacements, logger) {
-  replacements.forEach(rule => {
-    const origin = rule.regex ? new RegExp(rule.origin, 'g') : rule.origin;
-    new_content = content.replace(origin, rule.replacement);
-    if (new_content != content){
-      logger.info.ln("KKK:", "origin:", rule.origin, "replacement:", rule.replacement);
-      logger.info.ln("before:", content);
-      logger.info.ln("after :", new_content);
-    }
-    new_content = content
-  });
-  return content;
-}
-
 module.exports = {
   hooks: {
     "finish:before": function(x){
@@ -64,18 +47,26 @@ module.exports = {
           });
       }
 
+      function isMarkdownGenerated(htmlFile) {
+        const baseName = path.basename(htmlFile, '.html');
+        const mdFile = baseName === 'index' ? 'README.md' : `${baseName}.md`;
+        const mdFilePath = path.join(process.cwd(), mdFile);
+    
+        return fs.existsSync(mdFilePath);
+    }
+
       // 替换文件中的内容
       function replaceContent(filePath) {
-        if (path.extname(filePath) === '.html') {
-          logger.info.ln("filePath:", filePath)
+        if (path.extname(filePath) === '.html' && isMarkdownGenerated(filePath)) {
+          //logger.info.ln("filePath:", filePath)
           var content = fs.readFileSync(filePath, 'utf8');
-          logger.info.ln("before:", content)
+          //logger.info.ln("before:", content)
           replacements.forEach(rule => {
             const origin = rule.regex ? new RegExp(rule.origin, 'g') : rule.origin;
             new_content = content.replace(origin, rule.replacement);
             content = new_content
           });
-          logger.info.ln("after:", content)
+          //logger.info.ln("after:", content)
           fs.writeFileSync(filePath, content, 'utf8');
         }
       }
