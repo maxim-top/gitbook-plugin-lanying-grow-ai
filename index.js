@@ -4,7 +4,7 @@ module.exports = {
       const footer_note = this.config.get('pluginsConfig.lanying-grow-ai.footer_note', '')
       if (footer_note){
         const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
-        const note_text = "\n> " + footer_note + "\n\n"
+        const note_text = "\n\n*```" + footer_note + "```*\n\n"
         var new_content = page.content.replace(footerRegex,  note_text + '$1');
         if (new_content == page.content){
           new_content += note_text;
