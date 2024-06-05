@@ -32,6 +32,10 @@ module.exports = {
           "replacement": "本文档由 蓝莺GrowAI 发布"
         },
         {
+          "origin": "Published with GitBook",
+          "replacement": "Published with Lanying GrowAI"
+        },
+        {
           "origin": "https://www.gitbook.com",
           "replacement": "https://www.lanyingim.com"
         },
