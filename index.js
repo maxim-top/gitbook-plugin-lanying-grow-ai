@@ -65,17 +65,9 @@ module.exports = {
           });
       }
 
-      function isMarkdownGenerated(htmlFile) {
-        const baseName = path.basename(htmlFile, '.html');
-        const mdFile = baseName === 'index' ? 'README.md' : `${baseName}.md`;
-        const mdFilePath = path.join(process.cwd(), mdFile);
-    
-        return fs.existsSync(mdFilePath);
-    }
-
       // 替换文件中的内容
       function replaceContent(filePath) {
-        if (path.extname(filePath) === '.html' && isMarkdownGenerated(filePath)) {
+        if (path.extname(filePath) === '.html') {
           //logger.info.ln("filePath:", filePath)
           var content = fs.readFileSync(filePath, 'utf8');
           //logger.info.ln("before:", content)
