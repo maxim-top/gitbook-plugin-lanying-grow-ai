@@ -2,7 +2,9 @@ module.exports = {
   hooks: {
     "page:before": function(page) {
       const footer_note = this.config.get('pluginsConfig.lanying-grow-ai.footer_note', '')
-      if (footer_note){
+      const footer_note_path_list = this.config.get('pluginsConfig.lanying-grow-ai.footer_note_path_list', []);
+      const pathMatches = footer_note_path_list.some(prefix => page.path.startsWith(prefix));
+      if (footer_note && (footer_note_path_list.length === 0 || pathMatches)) {
         const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
         const note_text = "\n\n*```" + footer_note + "```*\n\n"
         var new_content = page.content.replace(footerRegex,  note_text + '$1');
