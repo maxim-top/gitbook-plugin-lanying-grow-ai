@@ -22,6 +22,7 @@
     "gitbook": ">=3.0.0"
   },
   "dependencies": {
+    "sitemap": "2.2.0"
   },
   "devDependencies": {
   },

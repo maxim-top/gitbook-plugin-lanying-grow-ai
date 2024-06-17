@@ -10,6 +10,7 @@
                 "replacement": "text2",
                 "regex": true
             }
-        ]
+        ],
+        "sitemap_hostname": "https://docs.lanyingim.com/"
     }
 ```

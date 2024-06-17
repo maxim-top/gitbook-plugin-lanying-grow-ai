@@ -1,3 +1,6 @@
+var url = require('url');
+var sm = require('sitemap');
+var sitemap_urls = [];
 module.exports = {
   hooks: {
     "page:before": function(page) {
@@ -19,6 +22,41 @@ module.exports = {
         page.content += "\n<script src=\""+new_lanying_link+"\" charset=\"utf-8\" async defer></script>\n"
       }
       return page;
+    },
+    "page": function(page) {
+      if (this.output.name != 'website') return page;
+
+      var lang = this.isLanguageBook()? this.config.values.language : '';
+      const sitemap_default_language = this.config.get('pluginsConfig.lanying-grow-ai.sitemap_default_language', '')
+      if (sitemap_default_language && lang == sitemap_default_language){
+        lang = ''
+      }
+      if (lang) lang = lang + '/';
+
+      //this.log.info.ln("url: ", lang + page.path, "->", this.output.toURL(lang + page.path));
+      var site_url = this.output.toURL(lang + page.path)
+      if (site_url == './'){
+        site_url = '/'
+      }
+      sitemap_urls.push({
+          url: site_url
+      });
+
+      return page;
+    },
+    "finish": function() {
+      const sitemap_hostname = this.config.get('pluginsConfig.lanying-grow-ai.sitemap_hostname', '')
+      if (sitemap_hostname){
+        var sitemap = sm.createSitemap({
+          cacheTime: 600000,
+          hostname: url.resolve(sitemap_hostname, '/'),
+          urls: sitemap_urls
+        });
+
+        var xml = sitemap.toString();
+
+        return this.output.writeFile('sitemap.xml', xml);
+      }
     },
     "finish:before": function(x){
       const fs = require('fs');
