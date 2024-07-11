@@ -7,6 +7,9 @@ module.exports = {
       const footer_note = this.config.get('pluginsConfig.lanying-grow-ai.footer_note', '')
       const footer_note_path_list = this.config.get('pluginsConfig.lanying-grow-ai.footer_note_path_list', []);
       const pathMatches = footer_note_path_list.some(prefix => page.path.startsWith(prefix));
+      const friendship_links = this.config.get('pluginsConfig.lanying-grow-ai.friendship_links', '');
+      const friendship_links_prefix = this.config.get('pluginsConfig.lanying-grow-ai.friendship_links_prefix', '**友情链接：**');
+      const friendship_links_position = this.config.get('pluginsConfig.lanying-grow-ai.friendship_links_position', 'homepage');
       if (footer_note && (footer_note_path_list.length === 0 || pathMatches)) {
         const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
         const note_text = "\n\n*```" + footer_note + "```*\n\n"
@@ -15,6 +18,17 @@ module.exports = {
           new_content += note_text;
         }
         page.content = new_content
+      }
+      if (friendship_links){
+        if (friendship_links_position != 'homepage' || (friendship_links_position == 'homepage' && this.output.toURL(page.path) == './')){
+          const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
+          const friendship_links_text = "\n\n" + friendship_links_prefix + friendship_links + "\n\n"
+          var new_content = page.content.replace(footerRegex,  friendship_links_text + '$1');
+          if (new_content == page.content){
+            new_content += friendship_links_text;
+          }
+          page.content = new_content
+        }
       }
       const lanying_link = this.config.get('pluginsConfig.lanying-grow-ai.lanying_link', '')
       if (lanying_link && lanying_link.startsWith("https://lanying.link/")){
