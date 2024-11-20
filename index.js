@@ -63,7 +63,7 @@ module.exports = {
       if (sitemap_hostname){
         var sitemap = sm.createSitemap({
           cacheTime: 600000,
-          hostname: url.resolve(sitemap_hostname, '/'),
+          hostname: sitemap_hostname,
           urls: sitemap_urls
         });
 
