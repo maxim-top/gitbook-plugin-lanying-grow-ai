@@ -14,6 +14,7 @@
                 "regex": true
             }
         ],
-        "sitemap_hostname": "https://docs.lanyingim.com/"
+        "sitemap_hostname": "https://docs.lanyingim.com/",
+        "baidu_link_submit": true //自动提交链接到百度
     }
 ```
