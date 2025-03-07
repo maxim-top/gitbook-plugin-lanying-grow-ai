@@ -35,6 +35,10 @@ module.exports = {
         const new_lanying_link = lanying_link.replace("https://lanying.link/", "https://lanying.link/support/")
         page.content += "\n<script src=\""+new_lanying_link+"\" charset=\"utf-8\" async defer></script>\n"
       }
+      const baidu_link_submit = this.config.get('pluginsConfig.lanying-grow-ai.baidu_link_submit', true)
+      if (baidu_link_submit){
+        page.content += "<script>\n(function(){\n    var bp = document.createElement('script');\n    var curProtocol = window.location.protocol.split(':')[0];\n    if (curProtocol === 'https') {\n        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        \n    }\n    else {\n        bp.src = 'http://push.zhanzhang.baidu.com/push.js';\n    }\n    var s = document.getElementsByTagName('script')[0];\n    s.parentNode.insertBefore(bp, s);\n})();\n</script>\n"
+      }
       return page;
     },
     "page": function(page) {
