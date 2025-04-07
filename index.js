@@ -32,7 +32,15 @@ module.exports = {
       }
       const lanying_link = this.config.get('pluginsConfig.lanying-grow-ai.lanying_link', '')
       if (lanying_link && lanying_link.startsWith("https://lanying.link/")){
-        const new_lanying_link = lanying_link.replace("https://lanying.link/", "https://lanying.link/support/")
+        const new_lanying_link = lanying_link.replace("https://lanying.link/", "https://lanyinglink.com/support/")
+        page.content += "\n<script src=\""+new_lanying_link+"\" charset=\"utf-8\" async defer></script>\n"
+      }
+      if (lanying_link && lanying_link.startsWith("https://lanyinglink.com/")){
+        const new_lanying_link = lanying_link.replace("https://lanyinglink.com/", "https://lanyinglink.com/support/")
+        page.content += "\n<script src=\""+new_lanying_link+"\" charset=\"utf-8\" async defer></script>\n"
+      }
+      if (lanying_link && lanying_link.startsWith("https://link.lanyingim.com/")){
+        const new_lanying_link = lanying_link.replace("https://link.lanyingim.com/", "https://link.lanyingim.com/support/")
         page.content += "\n<script src=\""+new_lanying_link+"\" charset=\"utf-8\" async defer></script>\n"
       }
       const baidu_link_submit = this.config.get('pluginsConfig.lanying-grow-ai.baidu_link_submit', true)
