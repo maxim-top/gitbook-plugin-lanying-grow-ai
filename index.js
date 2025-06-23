@@ -13,7 +13,8 @@ module.exports = {
       const friendship_links_position = this.config.get('pluginsConfig.lanying-grow-ai.friendship_links_position', 'homepage');
       const hook_sentence_slogan = this.config.get('pluginsConfig.lanying-grow-ai.hook_sentence_slogan', '')
       const hook_sentence_image = this.config.get('pluginsConfig.lanying-grow-ai.hook_sentence_image', '')
-      if (hook_sentence_slogan && (footer_path_list.length === 0 || pathMatches)){
+      const lineCount = page.content.split(/\r?\n/).length;
+      if (hook_sentence_slogan && (footer_path_list.length === 0 || pathMatches) && lineCount > 5){
         const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
         hook_text = '\n\n' + hook_sentence_slogan
         if (hook_sentence_image){
