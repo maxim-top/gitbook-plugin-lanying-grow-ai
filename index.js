@@ -1,16 +1,42 @@
 var url = require('url');
 var sm = require('sitemap');
 var sitemap_urls = [];
+const path = require('path');
 module.exports = {
   hooks: {
     "page:before": function(page) {
       const footer_note = this.config.get('pluginsConfig.lanying-grow-ai.footer_note', '')
-      const footer_note_path_list = this.config.get('pluginsConfig.lanying-grow-ai.footer_note_path_list', []);
-      const pathMatches = footer_note_path_list.some(prefix => page.path.startsWith(prefix));
+      const footer_path_list = this.config.get('pluginsConfig.lanying-grow-ai.footer_note_path_list', []);
+      const pathMatches = footer_path_list.some(prefix => page.path.startsWith(prefix));
       const friendship_links = this.config.get('pluginsConfig.lanying-grow-ai.friendship_links', '');
       const friendship_links_prefix = this.config.get('pluginsConfig.lanying-grow-ai.friendship_links_prefix', '**友情链接：**');
       const friendship_links_position = this.config.get('pluginsConfig.lanying-grow-ai.friendship_links_position', 'homepage');
-      if (footer_note && (footer_note_path_list.length === 0 || pathMatches)) {
+      const hook_sentence_slogan = this.config.get('pluginsConfig.lanying-grow-ai.hook_sentence_slogan', '')
+      const hook_sentence_image = this.config.get('pluginsConfig.lanying-grow-ai.hook_sentence_image', '')
+      if (hook_sentence_slogan && (footer_path_list.length === 0 || pathMatches)){
+        const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
+        hook_text = '\n\n' + hook_sentence_slogan
+        if (hook_sentence_image){
+          const bookRoot = this.options.root;
+          const absPagePath = path.resolve(bookRoot, page.path);
+          const pageDir = path.dirname(absPagePath);
+
+          const imagePath = hook_sentence_image;
+          const absImagePath = path.resolve(bookRoot, imagePath);
+
+          const relativePath = path.relative(pageDir, absImagePath).replace(/\\/g, '/');
+          hook_text += '\n\n' + '![](' + relativePath +')'
+        }
+        hook_text += '\n\n'
+        var new_content = page.content.replace(footerRegex, (match, footerContent) => {
+            return hook_text + footerContent;
+        });
+        if (new_content == page.content){
+          new_content += hook_text;
+        }
+        page.content = new_content
+      }
+      if (footer_note && (footer_path_list.length === 0 || pathMatches)) {
         const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
         const note_text = "\n\n*```" + footer_note + "```*\n\n"
         var new_content = page.content.replace(footerRegex,  note_text + '$1');
