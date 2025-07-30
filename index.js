@@ -25,7 +25,7 @@ module.exports = {
       }
       if (hook_sentence_slogan && (footer_path_list.length === 0 || pathMatches) && lineCount > 5){
         const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
-        hook_text = '\n\n' + hook_sentence_slogan
+        hook_text = '\n\n---\n' + hook_sentence_slogan
         if (hook_sentence_image){
           const bookRoot = this.options.root;
           const absPagePath = path.resolve(bookRoot, page.path);
