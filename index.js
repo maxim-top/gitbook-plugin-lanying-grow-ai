@@ -14,6 +14,15 @@ module.exports = {
       const hook_sentence_slogan = this.config.get('pluginsConfig.lanying-grow-ai.hook_sentence_slogan', '')
       const hook_sentence_image = this.config.get('pluginsConfig.lanying-grow-ai.hook_sentence_image', '')
       const lineCount = page.content.split(/\r?\n/).length;
+      if (footer_note && (footer_path_list.length === 0 || pathMatches)) {
+        const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
+        const note_text = "\n\n*```" + footer_note + "```*\n\n"
+        var new_content = page.content.replace(footerRegex,  note_text + '$1');
+        if (new_content == page.content){
+          new_content += note_text;
+        }
+        page.content = new_content
+      }
       if (hook_sentence_slogan && (footer_path_list.length === 0 || pathMatches) && lineCount > 5){
         const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
         hook_text = '\n\n' + hook_sentence_slogan
@@ -34,15 +43,6 @@ module.exports = {
         });
         if (new_content == page.content){
           new_content += hook_text;
-        }
-        page.content = new_content
-      }
-      if (footer_note && (footer_path_list.length === 0 || pathMatches)) {
-        const footerRegex = /(<footer\b[^>]*>.*<\/footer>)/is;
-        const note_text = "\n\n*```" + footer_note + "```*\n\n"
-        var new_content = page.content.replace(footerRegex,  note_text + '$1');
-        if (new_content == page.content){
-          new_content += note_text;
         }
         page.content = new_content
       }
